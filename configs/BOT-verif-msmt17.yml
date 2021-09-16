@@ -1,0 +1,22 @@
+_BASE_: "./Base-bagtricks.yml"
+MODEL:
+  META_ARCHITECTURE: "BaselineVerifMemBank"
+
+  BACKBONE:
+    NAME: "build_resnet_backbone"
+  LOSSES:
+    NAME: ("VerificationLoss")
+
+TEST:
+  EVAL_PERIOD: 3
+
+DATASETS:
+  NAMES: ("Market1501",)
+  TESTS: ("Market1501",)
+
+DATALOADER:
+  PK_SAMPLER: True
+  NAIVE_WAY: True
+  PERSON_NUMBER: 1041
+  PERSON_NUMBER_TEST: 3060
+OUTPUT_DIR: "logs/BoT_verif_msmt17"

@@ -26,6 +26,7 @@ def log_accuracy(pred_class_logits, gt_classes, topk=(1,)):
 
     storage = get_event_storage()
     storage.put_scalar("cls_accuracy", ret[0])
+    return ret[0]
 
 
 def cross_entropy_loss(pred_class_outputs, gt_classes, eps, alpha=0.2):

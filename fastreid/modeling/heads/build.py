@@ -23,3 +23,10 @@ def build_heads(cfg):
     """
     head = cfg.MODEL.HEADS.NAME
     return REID_HEADS_REGISTRY.get(head)(cfg)
+
+def build_verif_heads(cfg):
+    """
+    Build REIDHeads defined by `cfg.MODEL.REID_HEADS.NAME`.
+    """
+    head = "VerifHead"
+    return REID_HEADS_REGISTRY.get(head)(cfg)
