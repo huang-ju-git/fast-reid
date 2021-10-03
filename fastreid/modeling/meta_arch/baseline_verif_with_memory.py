@@ -72,7 +72,7 @@ class BaselineVerifMemBank(nn.Module):
                     all_features[label]=[]
                 all_features[label].append(feat)
                 for i in range(self.bank.size(0)): #遍历每个id
-                    if i!=label and random.randint(1,10)<6:
+                    if i!=label and random.randint(1,10)<4:
                        continue # speed up training. too slow, can't bear it anymore
                     # if i!=label:
                     #     continue
@@ -80,8 +80,18 @@ class BaselineVerifMemBank(nn.Module):
                     bank_targets.append(0 if i!=label else 1)
 
             for key in all_features.keys(): #对于每一个id
-                if len(all_features[key])>1:
-                    iter = list(itertools.combinations(all_features[key], 2))
+                temp_features=all_features[key]
+                if len(temp_features)>1:
+                    #新增随机正样本
+                    rand_len=random.randint(2,len(temp_features))
+                    iter1=list(itertools.combinations(temp_features, rand_len))
+                    for idx,element in enumerate(iter1):
+                        avg_feature=[]
+                        for term in element:
+                            avg_feature=avg_feature+term/rand_len
+                        avg_feature=torch.Tensor(avg_feature)
+                        temp_features.append(avg_feature)
+                    iter = list(itertools.combinations(temp_features, 2))
                     for idx,(f1,f2) in enumerate(iter):
                         bank_features.append(torch.pow(f1- f2,2))
                         bank_targets.append(1)
